@@ -1,3 +1,4 @@
+using AuthAuthorizationServer.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +18,13 @@ namespace AuthAuthorizationServer
         public void ConfigureServices(IServiceCollection services)
         {
             // register the identity server 4
-            services.AddIdentityServer();
+            services.AddIdentityServer()
+                .AddInMemoryIdentityResources(MemoryConfig.IdentityResources())
+                .AddInMemoryApiResources(MemoryConfig.ApiResources())
+                .AddInMemoryClients(MemoryConfig.Clients())
+                .AddTestUsers(MemoryConfig.TestUsers())
+                .AddInMemoryApiScopes(MemoryConfig.ApiScopes())
+                .AddDeveloperSigningCredential();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
