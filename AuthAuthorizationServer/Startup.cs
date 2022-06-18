@@ -16,6 +16,8 @@ namespace AuthAuthorizationServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // register the identity server 4
+            services.AddIdentityServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,15 +28,8 @@ namespace AuthAuthorizationServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
+            // add Identity server4 middle ware in the middle ware pipeline
+            app.UseIdentityServer();
         }
     }
 }
