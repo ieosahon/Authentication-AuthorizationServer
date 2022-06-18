@@ -1,6 +1,8 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace AuthAuthorizationServer.Configuration
 {
@@ -18,13 +20,24 @@ namespace AuthAuthorizationServer.Configuration
                 new Client
                 {
                     ClientId = "client",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
+                        new Secret("osahonSecret".Sha512())
                     },
-                    AllowedScopes = { "api" }
+                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId}
                 }
+               /* ,
+                
+                new Client
+                {
+                    ClientId = "second-client",
+                    ClientSecrets =
+                    {
+                        new Secret("ighodaroSecret".Sha512())
+                    },
+                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId}
+                }*/
             };
 
         public static IEnumerable<ApiResource> ApiResources() =>
@@ -33,21 +46,31 @@ namespace AuthAuthorizationServer.Configuration
                 new ApiResource("api", "My API")
             };
 
-        public static IList<TestUser> TestUsers() =>
+        public static List<TestUser> TestUsers() =>
 
             new List<TestUser>
             {
                 new TestUser
                 {
                     SubjectId = "1",
-                    Username = "alice",
-                    Password = "password"
+                    Username = "bob1",
+                    Password = "password1",
+                    Claims = new List<Claim>
+                    {
+                        new Claim ("given_name", "osahon1"),
+                        new Claim ("family_name", "ighodaro1")
+                    }
                 },
                 new TestUser
                 {
                     SubjectId = "2",
-                    Username = "bob",
-                    Password = "password"
+                    Username = "bob2",
+                    Password = "password2",
+                    Claims = new List<Claim>
+                    {
+                        new Claim ("given_name", "osahon2"),
+                        new Claim ("family_name", "ighodaro2")
+                    }
                 }
             };
 

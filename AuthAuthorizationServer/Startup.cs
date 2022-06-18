@@ -22,8 +22,9 @@ namespace AuthAuthorizationServer
                 .AddInMemoryIdentityResources(MemoryConfig.IdentityResources())
                 .AddInMemoryApiResources(MemoryConfig.ApiResources())
                 .AddInMemoryClients(MemoryConfig.Clients())
-                .AddTestUsers((List<IdentityServer4.Test.TestUser>)MemoryConfig.TestUsers())
-                .AddInMemoryApiScopes(MemoryConfig.ApiScopes());
+                .AddTestUsers(MemoryConfig.TestUsers())
+                .AddInMemoryApiScopes(MemoryConfig.ApiScopes())
+                .AddDeveloperSigningCredential();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
