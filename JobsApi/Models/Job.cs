@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace JobsAppApi.Models
+namespace JobsApi.Models
 {
     public class Job
     {

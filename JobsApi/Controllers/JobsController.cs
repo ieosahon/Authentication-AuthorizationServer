@@ -1,5 +1,7 @@
-﻿using JobsAppApi.Models;
+﻿using JobsApi.Data;
+using JobsApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,18 +14,32 @@ namespace JobsApi.Controllers
     [Route("[controller]")]
     public class JobsController : ControllerBase
     {
-
+        private readonly JobsDbContext _context;
         private readonly ILogger<JobsController> _logger;
 
-        public JobsController(ILogger<JobsController> logger)
+        public JobsController(ILogger<JobsController> logger, JobsDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet]
-        public IEnumerable<Job> Get()
+        public async Task<IEnumerable<Job>> GetAllJob()
         {
-            
+            return await _context.Jobs.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<Job> GetJob(int id)
+        {
+            var job = await _context.Jobs.FindAsync(id);
+
+            if (job == null)
+            {
+                return null;
+            }
+
+            return job;
         }
     }
 }
