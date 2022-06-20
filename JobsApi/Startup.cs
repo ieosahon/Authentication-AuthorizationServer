@@ -81,6 +81,34 @@ namespace JobsApi
             {
                 endpoints.MapControllers();
             });
+
+            // calling the TryRunMigrationsAndSeedDatabase method
+            TryRunMigrationsAndSeedDatabase(app);
+        }
+        /// <summary>
+        /// Migrattion of db and seeding of database
+        /// </summary>
+        /// <param name="app"></param>
+        private void TryRunMigrationsAndSeedDatabase(IApplicationBuilder app)
+        {
+            var config = app.ApplicationServices.GetService<IConfig>();
+            if (config?.RunDbMigrations == true) // check if config is null and RunDbMigrations is set to true
+            {
+                using var scope = app.ApplicationServices.CreateScope();
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<JobsDbContext>();
+                    dbContext.Database.Migrate(); // to run all pending migrations and change the db. If it is called the first time , it will create the db and tables
+                }
+            }
+
+            // to seed the db
+            if (config?.SeedDb == true) // check if config is null and SeedDb is set to true
+            {
+                using var scope = app.ApplicationServices.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<JobsDbContext>();
+                DatabaseInitializer.Initializer(dbContext); // to seed the  db after the creation of the db
+            }
+
         }
     }
 }
