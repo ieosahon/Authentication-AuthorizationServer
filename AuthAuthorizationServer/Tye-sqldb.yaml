@@ -12,4 +12,4 @@ services:
   - name: http
     containerPort: 1433
     port: 21433
-    connectionString: Server=${host}; User ID =sa; Database = JobsApiDb; Password=${env:}
+    connectionString: Server=${host}; User ID =sa; Database = JobsApiDb; Password=${env:SA_PASSWORD}
