@@ -1,0 +1,15 @@
+
+name: sqlsever # name is optional
+services:
+- name: sqldb-job
+  image: mcr.microsoft.com/mssql/server:2019-latest
+  env:
+  - name: SA_PASSWORD
+    value: ieosahon
+  - name: "ACCEPT_EULA"
+    value: 'Y'
+  bindings:
+  - name: http
+    containerPort: 1433
+    port: 21433
+    connectionString: Server=${host}; User ID =sa; Database = JobsApiDb; Password=${env:}
