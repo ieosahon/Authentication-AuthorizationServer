@@ -28,6 +28,15 @@ namespace JobsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Registering jwt authentication bearer
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", opt =>
+                {
+                    opt.RequireHttpsMetadata = false;
+                    opt.Authority = "https://localhost:5011"; // Configuration["Jwt:Issuer"];
+                    opt.Audience = "jobsApi";
+                });
+
             // Registration of Config class
             services.AddSingleton<IConfig>(Configuration.GetSection("CustomConfig")?.Get<Config>());
 
@@ -71,9 +80,13 @@ namespace JobsApi
                 app.UseDeveloperExceptionPage();
             }
 
+            // adding middle wares to pipe line
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
