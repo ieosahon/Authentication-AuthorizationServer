@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # Yaml file
 Tye-sqldb.yaml
+
+# AppSetting
+*appsettings.
