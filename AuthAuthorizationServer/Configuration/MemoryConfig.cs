@@ -25,7 +25,7 @@ namespace AuthAuthorizationServer.Configuration
                     {
                         new Secret("osahonSecret".Sha512())
                     },
-                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId}
+                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId, "jobsApi.scope" }
                 }
                /* ,
                 
@@ -43,7 +43,10 @@ namespace AuthAuthorizationServer.Configuration
         public static IEnumerable<ApiResource> ApiResources() =>
             new List<ApiResource>
             {
-                new ApiResource("api", "My API")
+                new ApiResource("jobsApi", "Jobs API")
+                {
+                    Scopes = { "jobsApi.scope" }
+                }
             };
 
         public static List<TestUser> TestUsers() =>
@@ -77,7 +80,7 @@ namespace AuthAuthorizationServer.Configuration
         public static IEnumerable<ApiScope> ApiScopes() =>
             new List<ApiScope>
             {
-                new ApiScope("api", "My API")
+                new ApiScope("jobsApi.scope", "Jobs API")
             };
 
     }
