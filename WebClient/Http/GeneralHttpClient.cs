@@ -2,6 +2,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WebClient.Http
@@ -21,7 +22,7 @@ namespace WebClient.Http
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(item)) // serialize the object to json and set it as content of the request message
+                Content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json") // serialize the object to json and set it as content of the request message
             };
         
             //requestMessage.Content = new StringContent(JsonConvert.SerializeObject(item)); // serialize the object to json and set it as content of the request message
