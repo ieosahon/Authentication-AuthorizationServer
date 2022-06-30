@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebClient.Config;
+using WebClient.Http;
+using WebClient.JobServices;
 
 namespace WebClient
 {
@@ -23,6 +26,12 @@ namespace WebClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IJobService, JobService>();
+
+            services.AddTransient<IHttpClient, GeneralHttpClient>();
+
+            services.Configure<ApiConfig>(Configuration.GetSection("ApiSettings")); // bind the API setting section to the ApiConfig class
+            
             services.AddControllersWithViews();
         }
 

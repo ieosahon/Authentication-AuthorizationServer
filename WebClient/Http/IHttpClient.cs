@@ -5,7 +5,7 @@ namespace WebClient.Http
 {
     public interface IHttpClient
     {
-        Task<string> GetStringAsync(string uri);
-        Task<HttpResponseMessage> PostAsync<T>(string url, T item); // post data to the web api end point
+        Task<string> GetStringAsync(string url);
+        Task<HttpResponseMessage> PostAsync<T>(string uri, T item); // post data to the web api end point
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using WebClient.JobServices;
 using WebClient.Models;
 
 namespace WebClient.Controllers
@@ -12,15 +13,18 @@ namespace WebClient.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IJobService _jobService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IJobService jobService)
         {
             _logger = logger;
+            _jobService = jobService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var jobs = await _jobService.GetJobs();
+            return View(jobs);
         }
 
         public IActionResult Privacy()
