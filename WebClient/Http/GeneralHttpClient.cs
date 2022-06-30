@@ -18,9 +18,9 @@ namespace WebClient.Http
             return await response.Content.ReadAsStringAsync(); // read the response content as string
         }
 
-        public async Task<HttpResponseMessage> PostAsync<T>(string url, T item)
+        public async Task<HttpResponseMessage> PostAsync<T>(string uri, T item)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, url)
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri)
             {
                 Content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json") // serialize the object to json and set it as content of the request message
             };

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebClient.Config;
 using WebClient.Http;
 using WebClient.JobServices;
 
@@ -28,6 +29,8 @@ namespace WebClient
             services.AddSingleton<IJobService, JobService>();
 
             services.AddTransient<IHttpClient, GeneralHttpClient>();
+
+            services.Configure<ApiConfig>(Configuration.GetSection("ApiSettings")); // bind the API setting section to the ApiConfig class
             
             services.AddControllersWithViews();
         }

@@ -13,7 +13,7 @@ namespace JobsApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    //[Authorize]
     public class JobsController : ControllerBase
     {
         private readonly JobsDbContext _context;
