@@ -1,3 +1,4 @@
+using AuthAuthorizationServer.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +18,15 @@ namespace AuthAuthorizationServer
         public void ConfigureServices(IServiceCollection services)
         {
             // register the identity server 4
-            services.AddIdentityServer();
+            services.AddIdentityServer()
+                .AddInMemoryIdentityResources(MemoryConfig.IdentityResources())
+                .AddInMemoryApiResources(MemoryConfig.ApiResources())
+                .AddInMemoryClients(MemoryConfig.Clients())
+                .AddTestUsers(MemoryConfig.TestUsers())
+                .AddInMemoryApiScopes(MemoryConfig.ApiScopes())
+                .AddDeveloperSigningCredential();
+
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,8 +37,17 @@ namespace AuthAuthorizationServer
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+            app.UseRouting();
+
             // add Identity server4 middle ware in the middle ware pipeline
             app.UseIdentityServer();
+
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
         }
     }
 }
